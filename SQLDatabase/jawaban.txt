@@ -1,0 +1,74 @@
+1. buat database dengan nama 'myshop'
+=>CREATE DATABASE myshop;
+2. buat tabel dalam database 'myshop' :
+=>USE myshop;
+    */ membuat tabel users /*
+    users:{id, name, email, password}
+    =>CREATE TABLE users 
+        (id INT NOT NULL AUTO_INCREMENT,
+        name varchar(255) NOT NULL,
+        email varchar(255) NOT NULL,
+        password varchar(255) NOT NULL,
+        PRIMARY KEY (id));
+
+    */ membuat tabel items /*
+    items: {id, name, description, price, stock, category_id}
+    => CREATE TABLE items
+        (id INT NOT NULL AUTO_INCREMENT,
+        name varchar(255) NOT NULL,
+        description varchar(255) NOT NULL,
+        price INT NOT NULL,
+        stock INT NOT NULL,
+        category_id INT NOT NULL,
+        PRIMARY KEY (id),
+
+    */ membuat tabel categories /* 
+    categories: {id, name}
+    => CREATE TABLE categories
+        (id INT NOT NULL AUTO_INCREMENT,
+        name varchar(255) NOT NULL,
+        PRIMARY KEY (id));
+
+    */ menambahkan foreign key pada tabel items /*
+    => alter table items
+       add CONSTRAINT FK_items_categories_category_id
+       FOREIGN KEY (category_id)
+       REFERENCES categories(id);  
+    
+
+3. masukan data table
+*/ memasukan data kedalam tabel users /*
+=>insert into users (name, email, password) values ('John Doe', 'john@doe.com', 'john123'),
+('Jane Doe', 'jane@doe.com', 'jenita123');
+
+*/ memasukan data kedalam tabel categories /*
+=>insert into categories (name) values ('gadget'), ('cloth'), ('men'), ('women'), ('branded');
+
+*/ memasukan data kedalam tabel items /*
+=>insert into items (name, description, price, stock, category_id) values ('Sumsang b50', 'hape keren dari merk sumsang', 4000000, 10, 1),
+('Uniklooh', 'baju keren dari brand ternama', 500000, 50, 2),
+('IMHO Watch', 'jam tangan anak yang jujur banget', 2000000, 10, 1);
+
+
+4a. ambil data users
+*/ menampilkan seluruh data users kecuali kolom password /*
+=> select * from users order by id, name, email;
+
+4b. ambil data items (harga diatas 1000000), (kata kunci: uniklo/watch/sang)
+*/ menampilkan data item pada table items yang memiliki harga diatas 1000000 /*
+=> select * from items where price > 1000000;
+
+*/ menampilkan data item pada table items yang memiliki name serupa atau mirip "Unikloo"/ "Watch"/ "sang"
+=> select * from items where name like 'Unikloo';
+=> select * from items where name like '%Watch%';
+=> select * from items where name like '%sang%';
+
+
+4c. join (items(description, price, stock, category_id), categories)
+*/ menampilkan join items dengan categories */
+=> select items.name, description, price, stock, category_id, categories.name as kategori from items join categories on items.category_id = categories.id;
+
+
+5. ubah data tabel items (sumsang, harga jadi 2500000)
+*/ mengubah price pada table items pada id = 1 (name = Sumsang b50) menjadi 2500000 /*
+=> update items set price where id = 1;
